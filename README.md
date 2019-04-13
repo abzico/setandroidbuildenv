@@ -25,5 +25,7 @@ or in case you've installed `setandroidbuildenv` to your executable path i.e. `/
 minsdkversion=21 target_abi=arm64-v8a . setandroidbuildenv
 ```
 
+Note `.` which is to source exported environment variables inside the script, so we can use it outside in active shell.
+
 # License
 [MIT](https://github.com/abzico/setandroidbuildenv/blob/master/LICENSE), Angry Baozi (https://abzi.co)
