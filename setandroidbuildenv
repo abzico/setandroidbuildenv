@@ -1,0 +1,92 @@
+#!/bin/bash
+
+print_help()
+{
+  __text="
+  Configurable parameters
+    host_tag          - indicate host value that builds [default is 'linux-x86_64']
+    minsdkversion     - minimum sdk version to support, this is value of api level [default is 18]
+
+    target_abi        - a single target abi value. It can be 'armeabi-v7a', 'x86', 'arm64-v8a', or 'x86_64'. [default is 'armeabi-v7a']
+"
+  echo $__text;
+}
+
+# check that $ANDROID_NDK_HOME environment variable is set
+if [ -z "$ANDROID_NDK_HOME" ]
+then
+  echo "Error \$ANDROID_NDK_HOME is not set!"
+  exit 1
+fi
+
+# set values of settings
+# if user doesn't send in, then we set it to
+# the following default values
+if [ -z "$host_tag" ]
+then
+  host_tag=linux-x86_64
+fi
+
+if [ -z "$minsdkversion" ]
+then
+  minsdkversion=18
+fi
+
+if [ -z "$target_abi" ]
+then
+  target_abi=armeabi-v7a
+fi
+
+echo "Use following settings"
+echo "host_tag      = $host_tag"
+echo "minsdkversion = $minsdkversion"
+echo "target_abi    = $target_abi"
+echo ""
+
+TOOLCHAIN=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/$host_tag
+
+if [ $target_abi == "armeabi-v7a" ]
+then
+  echo "set for armeabi-v7a"
+  cc_prefix=armv7a-linux-androideabi$minsdkversion-
+  support_prefix=arm-linux-androideabi-
+  host=armv7a-linux-androideabi
+elif [ $target_abi == "x86" ]
+then
+  echo "set for x86"
+  cc_prefix=i686-linux-android18-
+  support_prefix=i686-linux-android-
+  host=i686-linux-android
+elif [ $target_abi == "arm64-v8a" ]
+then
+  echo "set for arm64-v8a"
+  cc_prefix=aarch64-linux-android21-
+  support_prefix=aarch64-linux-android-
+  host=aarch64-linux-android
+else
+  echo "set for x86_64"
+  cc_prefix=x86_64-linux-android21-
+  support_prefix=x86_64-linux-android-
+  host=x86_64-linux-android
+fi
+
+export AR=$TOOLCHAIN/bin/${support_prefix}ar
+export AS=$TOOLCHAIN/bin/${support_prefix}as
+export CC=$TOOLCHAIN/bin/${cc_prefix}clang
+export CXX=$TOOLCHAIN/bin/${cc_prefix}clang++
+export LD=$TOOLCHAIN/bin/${support_prefix}ld
+export RANLIB=$TOOLCHAIN/bin/${support_prefix}ranlib
+export STRIP=$TOOLCHAIN/bin/${support_prefix}strip
+
+echo "Done with result"
+echo "  AR - $AR"
+echo "  AS - $AS"
+echo "  CC - $CC"
+echo "  CXX - $CXX"
+echo "  LD - $LD"
+echo "  RANLIB - $RANLIB"
+echo "  STRIP - $STRIP"
+echo ""
+echo "(remember to run with . ./setandroidbuildenv)"
+
+# **important** remember to execute this script with . ./setandroidbuildenv
