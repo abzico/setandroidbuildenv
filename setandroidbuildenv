@@ -60,26 +60,32 @@ fi
 if [ -z "$ANDROID_NDK_HOME" ]
 then
   echo "Error \$ANDROID_NDK_HOME is not set!"
+  # use return instead of exit to avoid sourcing and quitting terminal unintentionally
   exit 1
 fi
 
-# set values of settings
-# if user doesn't send in, then we set it to
-# the following default values
-if [ -z "$host_tag" ]
-then
-  host_tag=linux-x86_64
-fi
+# default settings
+host_tag=linux-x86_64
+minsdkversion=18
+target_abi=armeabi-v7a
 
-if [ -z "$minsdkversion" ]
-then
-  minsdkversion=18
-fi
+for ARGUMENT in "$@"
+do
+  KEY=$(echo $ARGUMENT | cut -f1 -d=)
+  VALUE=$(echo $ARGUMENT | cut -f2- -d=)
 
-if [ -z "$target_abi" ]
-then
-  target_abi=armeabi-v7a
-fi
+  case "$KEY" in
+    "host_tag" ) host_tag="${VALUE}" ;;
+    "minsdkversion" ) minsdkversion="${VALUE}" ;;
+    "target_abi" ) target_abi="${VALUE}" ;;
+    *)
+      echo ""
+      echo "Unknown '$KEY' parameter"
+      print_help
+      exit 1
+      ;;
+  esac
+done
 
 echo "Use following settings"
 echo "host_tag      = $host_tag"
