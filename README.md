@@ -16,16 +16,23 @@ There are the following configurable settings you can set
 The way to send in above parameters can be done with
 
 ```
-minsdkversion=21 target_abi=arm64-v8a . ./setandroidbuildenv
+. ./setandroidbuildenv minsdkversion=21 target_abi=arm64-v8a
 ```
 
 or in case you've installed `setandroidbuildenv` to your executable path i.e. `/usr/local/bin` then you do the following instead
 
 ```
-minsdkversion=21 target_abi=arm64-v8a . setandroidbuildenv
+. setandroidbuildenv minsdkversion=21 target_abi=arm64-v8a
 ```
 
 Note `.` which is to source exported environment variables inside the script, so we can use it outside in active shell.
+
+# Available Commands/Parameters
+
+* `setandroidbuildenv --help` - to print help text
+* `. setandroidbuildenv --unset` - to unset all related and already set environment variables related in building operation (notice `.` source at the beginning of the command
+* `setandroidbuildenv --print-active` - to print active environment variables' value
+* `. setandroidbuildenv <optional configurable settings>` - to set environment variables for building
 
 # License
 [MIT](https://github.com/abzico/setandroidbuildenv/blob/master/LICENSE), Angry Baozi (https://abzi.co)
