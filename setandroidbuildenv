@@ -31,6 +31,20 @@ elif [ "$1" == "--help" ]
 then
   print_help
   exit 0
+
+# unset environment variables related to building project
+elif [ "$1" == "--unset" ]
+then
+  unset AR
+  unset AS
+  unset CC
+  unset CXX
+  unset LD
+  unset RANLIB
+  unset STRIP
+  # use return here because user needs to source it to make it effective
+  # for parent process
+  return 0
 fi
 
 # check that $ANDROID_NDK_HOME environment variable is set
