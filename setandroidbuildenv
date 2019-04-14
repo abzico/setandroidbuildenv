@@ -8,9 +8,30 @@ print_help()
     minsdkversion     - minimum sdk version to support, this is value of api level [default is 18]
 
     target_abi        - a single target abi value. It can be 'armeabi-v7a', 'x86', 'arm64-v8a', or 'x86_64'. [default is 'armeabi-v7a']
+
+  **Remember** to execute this script with <optional parameters> . setandroidbuildenv
 "
-  echo $__text;
+  echo "$__text";
 }
+
+# print current active set environment variables
+if [ "$1" == "--print-active" ]
+then
+  echo "Current active settings"
+  echo "  AR - $AR"
+  echo "  AS - $AS"
+  echo "  CC - $CC"
+  echo "  CXX - $CXX"
+  echo "  LD - $LD"
+  echo "  RANLIB - $RANLIB"
+  echo "  STRIP - $STRIP"
+  echo ""
+  exit 0
+elif [ "$1" == "--help" ]
+then
+  print_help
+  exit 0
+fi
 
 # check that $ANDROID_NDK_HOME environment variable is set
 if [ -z "$ANDROID_NDK_HOME" ]
@@ -87,6 +108,6 @@ echo "  LD - $LD"
 echo "  RANLIB - $RANLIB"
 echo "  STRIP - $STRIP"
 echo ""
-echo "(remember to run with . ./setandroidbuildenv)"
+echo "(remember to run with . ./setandroidbuildenv if not)"
 
 # **important** remember to execute this script with . ./setandroidbuildenv
