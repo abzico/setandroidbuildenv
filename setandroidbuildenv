@@ -9,6 +9,13 @@ print_help()
 
     target_abi        - a single target abi value. It can be 'armeabi-v7a', 'x86', 'arm64-v8a', or 'x86_64'. [default is 'armeabi-v7a']
 
+  Example: . setandroidbuildenv minsdkversion=21 target_abi=arm64-v8a
+
+  Main operations
+    --print-active    - to print current active environment variables for building
+    --unset           - to unset all environment variables for building (remember to . (source) to take effect)
+    --help            - to print this message
+
   **Remember** to execute this script with <optional parameters> . setandroidbuildenv
 "
   echo "$__text";
@@ -27,6 +34,8 @@ then
   echo "  STRIP - $STRIP"
   echo ""
   exit 0
+
+# print help text
 elif [ "$1" == "--help" ]
 then
   print_help
